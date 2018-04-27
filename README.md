@@ -3,6 +3,9 @@ LabStack Echo on Google App Engine Sample
 
 
 ```
+// local
+$ dev_appserver.py backend/app.yaml
+
 // gcloudを使用する場合
 $ GOPATH=`pwd`/gopath gcloud app deploy backend/app.yaml
 
