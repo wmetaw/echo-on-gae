@@ -12,6 +12,12 @@ import (
 	"strconv"
 )
 
+/*
+
+  Datastoreのテスト
+
+*/
+
 type User struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -19,13 +25,12 @@ type User struct {
 
 func init() {
 
-	g := e.Group("/users")
-	//g.Use(middleware.CORS())
+	//e.Use(middleware.CORS())
 
-	g.POST("", createUser)
-	g.GET("", getUsers)
-	g.GET("/:id", getUser)
-	g.GET("/logtest", logtest)
+	e.POST("/users", createUser)
+	e.GET("/users", getUsers)
+	e.GET("/users/:id", getUser)
+	e.GET("/users/logtest", logtest)
 }
 
 // API reference
