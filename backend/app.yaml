@@ -1,5 +1,5 @@
 runtime: go
-api_version: go1.8                # used when appengine supports different go versions
+api_version: go1.8
 
 default_expiration: "1d"        # for CDN serving of static files (use url versioning if long!)
 
@@ -31,3 +31,7 @@ handlers:
 # finally, we route all other requests to our application. The script name just means "the go app"
 - url: /.*
   script: _go_app
+
+# env
+includes:
+- secret.yaml
