@@ -5,6 +5,7 @@ import (
 
 	"github.com/labstack/echo"
 
+	"cloud.google.com/go/spanner"
 	"github.com/satori/go.uuid"
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/datastore"
@@ -31,6 +32,39 @@ func init() {
 	e.GET("/users", getUsers)
 	e.GET("/users/:id", getUser)
 	e.GET("/users/logtest", logtest)
+
+	e.GET("/spa", spa)
+}
+
+func spa(c echo.Context) error {
+
+	// コンテキストの取得
+	ctx := appengine.NewContext(c.Request())
+
+	// This database must exist.
+	databaseName := ""
+
+	client, err := spanner.NewClient(ctx, databaseName)
+	if err != nil {
+		log.Errorf(ctx, "Failed to create client %v", err)
+	}
+	defer client.Close()
+
+	stmt := spanner.Statement{SQL: "SELECT 1"}
+	iter := client.Single().Query(ctx, stmt)
+	defer iter.Stop()
+
+	row, err := iter.Next()
+	if err != nil {
+		log.Errorf(ctx, "Query failed with %v", err)
+	}
+
+	var i int64
+	if row.Columns(&i) != nil {
+		log.Errorf(ctx, "Failed to parse row %v", err)
+	}
+
+	return c.JSON(http.StatusOK, i)
 }
 
 // API reference

@@ -1,7 +1,7 @@
 runtime: go
-api_version: go1.8
-
+api_version: go1
 default_expiration: "1d"        # for CDN serving of static files (use url versioning if long!)
+#env: flex
 
 handlers:
 # all the static files that we normally serve ourselves are defined here and Google will handle
