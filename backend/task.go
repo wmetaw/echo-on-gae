@@ -19,11 +19,6 @@ type Task struct {
 
 func init() {
 
-	e.POST("/task", createTask)
-	e.POST("/tasks", createTasks)
-	e.GET("/task/:id", getTask)
-	e.GET("/testlimit", testlimit)
-	e.GET("/testtranslimit", testtranslimit)
 }
 
 // エンティティグループは1秒間に1回しか書き込みできない制約のテスト。トランザクションあり

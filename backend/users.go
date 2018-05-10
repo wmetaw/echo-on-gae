@@ -26,14 +26,6 @@ type User struct {
 
 func init() {
 
-	//e.Use(middleware.CORS())
-
-	e.POST("/users", createUser)
-	e.GET("/users", getUsers)
-	e.GET("/users/:id", getUser)
-	e.GET("/users/logtest", logtest)
-
-	e.GET("/spa", spa)
 }
 
 func spa(c echo.Context) error {

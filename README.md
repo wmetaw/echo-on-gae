@@ -3,7 +3,9 @@ LabStack Echo on Google App Engine Sample
 
 
 ```
-// local
+// IDE または shellで起動
+
+// local サンドボックス環境
 $ dev_appserver.py backend/app.yaml
 
 // gcloudを使用する場合

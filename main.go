@@ -1,13 +1,13 @@
 // +build !appengine,!appenginevm
-
-package backend
+package main
 
 import (
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
+	"github.com/wmetaw/echo-on-gae/backend"
 )
 
-func createMux() *echo.Echo {
+func main() {
 	e := echo.New()
 
 	e.Use(middleware.Recover())
@@ -16,9 +16,7 @@ func createMux() *echo.Echo {
 
 	e.Static("/", "public")
 
-	return e
-}
+	backend.Routes(e)
 
-func main() {
-	e.Logger.Fatal(e.Start(":8080"))
+	e.Logger.Fatal(e.Start(":8880"))
 }

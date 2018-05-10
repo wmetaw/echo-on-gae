@@ -39,11 +39,6 @@ var rdb *gorm.DB
 func init() {
 
 	rdb, _ = gorm.Open("mysql", rdbDsn())
-
-	// ルーティング
-	e.POST("/items", setItems)
-	e.GET("/items", getItems)
-	e.GET("/items/:id", getItem)
 }
 
 // getItems 全件取得
@@ -88,7 +83,7 @@ func getItem(c echo.Context) error {
 // rdbDsn 本番またはローカルのDSNを取得
 func rdbDsn() string {
 
-	// local
+	// local サンドボックス環境
 	if appengine.IsDevAppServer() {
 
 		user := getEnv("MYSQL_USER", "root")
