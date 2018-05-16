@@ -6,6 +6,7 @@ import "github.com/labstack/echo"
 func Routes(e *echo.Echo) {
 	e.POST("/items", setItems)
 	e.GET("/items", getItems)
+	e.GET("/items/tax", getItemTaxes)
 	e.GET("/items/:id", getItem)
 
 	e.POST("/users", createUser)

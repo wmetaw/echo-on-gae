@@ -5,6 +5,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo"
+	"github.com/shopspring/decimal"
 	"google.golang.org/appengine"
 	"net/http"
 	"os"
@@ -32,6 +33,7 @@ type Item struct {
 	Description string
 	Price       uint
 	IsShop      bool
+	Tax         decimal.Decimal `sql:"type:decimal(4,2);"`
 }
 
 var rdb *gorm.DB
@@ -45,9 +47,9 @@ func init() {
 func setItems(c echo.Context) error {
 
 	items := []*Item{
-		{Id: 1, Category: 1, Name: "ポーション", Description: "HP回復薬", Price: 100, IsShop: true},
-		{Id: 2, Category: 2, Name: "エーテル", Description: "MP回復薬", Price: 300, IsShop: true},
-		{Id: 3, Category: 3, Name: "エリクサー", Description: "HP,MP全回復", Price: 500, IsShop: false},
+		{Id: 1, Category: 1, Name: "ポーション", Description: "HP回復薬", Price: 100, IsShop: true, Tax: decimal.NewFromFloat(0.2)},
+		{Id: 2, Category: 2, Name: "エーテル", Description: "MP回復薬", Price: 300, IsShop: true, Tax: decimal.NewFromFloat(0.3)},
+		{Id: 3, Category: 3, Name: "エリクサー", Description: "HP,MP全回復", Price: 500, IsShop: false, Tax: decimal.NewFromFloat(0.5)},
 	}
 	for _, i := range items {
 		rdb.Create(&i)
@@ -63,6 +65,20 @@ func getItems(c echo.Context) error {
 	rdb.Find(&allItem)
 
 	return c.JSON(http.StatusCreated, allItem)
+}
+
+// 税金合計
+func getItemTaxes(c echo.Context) error {
+
+	var allItem []Item
+	rdb.Find(&allItem)
+
+	d := decimal.New(0, 0)
+	for _, v := range allItem {
+		d = d.Add(v.Tax)
+	}
+
+	return c.JSON(http.StatusOK, d.String())
 }
 
 // getItem 1件取得
